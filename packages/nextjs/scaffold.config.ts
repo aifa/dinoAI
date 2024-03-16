@@ -1,3 +1,4 @@
+import { defineChain } from "viem";
 import * as chains from "viem/chains";
 
 export type ScaffoldConfig = {
@@ -9,9 +10,51 @@ export type ScaffoldConfig = {
   walletAutoConnect: boolean;
 };
 
+export const galadrielTestnet = defineChain({
+  id: 696969,
+  name: "Galadriel Testnet",
+  network: "galadriel",
+  nativeCurrency: {
+    decimals: 18,
+    name: "GAL",
+    symbol: "GAL",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://testnet.galadriel.com"],
+    },
+    public: {
+      http: ["https://testnet.galadriel.com"],
+    },
+  },
+  blockExplorers: {
+    default: { name: "Explorer", url: "https://explorer.galadriel.com" },
+  },
+});
+
 const scaffoldConfig = {
   // The networks on which your DApp is live
-  targetNetworks: [chains.hardhat],
+  // Example of a custom chain configuration
+  // This is useful for testing chains that are not yet supported by viem
+  // You can find more information in the documentation:
+  // https://viem.app/docs/scaffold/configuration#custom-chains
+  //
+  // const customChain: Chain = {
+  //   chainId: 1234,
+  //   chainName: "MyChain",
+  //   rpcUrls: {
+  //     default: "https://my-chain.com",
+  //     goerli: "https://my-chain-goerli.com"
+  //   },
+  //   blockExplorerUrls: {
+  //     default: "https://my-chain.com/blocks/{blockNumber}",
+  //     goerli: "https://my-chain-goerli.com/blocks/{blockNumber}"
+  //   },
+  // };
+
+
+
+  targetNetworks: [galadrielTestnet] as const,
 
   // The interval at which your front-end polls the RPC servers for new data
   // it has no effect if you only target the local network (default is 4000)
