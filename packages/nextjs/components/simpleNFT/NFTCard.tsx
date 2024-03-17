@@ -5,12 +5,20 @@ import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 export const NFTCard = ({ nft }: { nft: Collectible }) => {
   const [transferToAddress, setTransferToAddress] = useState("");
+  const [userMessage, setUserMessage] = useState("");
 
   const { writeAsync: transferNFT } = useScaffoldContractWrite({
     contractName: "DinoAI",
     functionName: "transferFrom",
     args: [nft.owner, transferToAddress, BigInt(nft.id.toString())],
   });
+
+  const { writeAsync: startChat } = useScaffoldContractWrite({
+    contractName: "DinoAI",
+    functionName: "startChat",
+    args: [userMessage, BigInt(nft.id.toString())],
+  });
+  
 
   return (
     <div className="card card-compact bg-base-100 shadow-lg sm:min-w-[300px] shadow-secondary">
@@ -45,15 +53,20 @@ export const NFTCard = ({ nft }: { nft: Collectible }) => {
           <Address address={nft.owner} />
         </div>
         <div className="flex flex-col my-2 space-y-1">
-          <span className="text-lg font-semibold mb-1">Ask A Question: </span>
-          <AddressInput
-            value={transferToAddress}
-            placeholder="receiver address"
-            onChange={newValue => setTransferToAddress(newValue)}
-          />
+          <span className="text-lg font-semibold mb-1">Start A Chat: </span>
+          <AddressInput value={userMessage} placeholder="message" onChange={newValue => setUserMessage(newValue)} />
         </div>
         <div className="card-actions justify-end">
-          <button className="btn btn-secondary btn-md px-8 tracking-wide" onClick={() => transferNFT()}>
+          <button className="btn btn-secondary btn-md px-8 tracking-wide" onClick={() => startChat()}>
+            Send
+          </button>
+        </div>
+        <div className="flex flex-col my-2 space-y-1">
+          <span className="text-lg font-semibold mb-1">Start A Chat: </span>
+          <AddressInput value={userMessage} placeholder="message" onChange={newValue => setUserMessage(newValue)} />
+        </div>
+        <div className="card-actions justify-end">
+          <button className="btn btn-secondary btn-md px-8 tracking-wide" onClick={() => startChat()}>
             Send
           </button>
         </div>

@@ -7,14 +7,20 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-
 interface IOracle {
     function createFunctionCall(
         uint functionCallbackId,
         string memory functionType,
         string memory functionInput
     ) external returns (uint i);
+
+	function createLlmCall(
+        uint promptId
+    ) external returns (uint);
 }
+
+/** It is a beast of an NFT
+ * @title DinoAI */
 
 contract DinoAI is
 	ERC721,
@@ -22,6 +28,24 @@ contract DinoAI is
 	ERC721URIStorage,
 	Ownable
 {
+	
+    struct Message {
+        string role;
+        string content;
+    }
+
+    struct ChatRun {
+        address owner;
+        Message[] messages;
+        uint messagesCount;
+    }
+
+    mapping(uint => ChatRun) public chatRuns;
+    uint private chatRunsCount;
+
+    event ChatCreated(address indexed owner, uint indexed chatId);
+
+
 	struct MintInput {
         address owner;
         bool isMinted;
@@ -47,6 +71,8 @@ contract DinoAI is
 
 	constructor(address initialOracleAddress) ERC721("DinoAI", "DINO") {
         oracleAddress = initialOracleAddress;
+		chatRunsCount = 0;
+		mintsCount = 0;
     }
 
 	modifier onlyOracle() {
@@ -113,6 +139,85 @@ contract DinoAI is
         _setTokenURI(tokenId, response);
     }
 
+    function startChat(string memory message, uint mintId) public returns (uint i) {
+        ChatRun storage run = chatRuns[chatRunsCount];
+
+        run.owner = msg.sender;
+		
+		//in the first run, add the system prompt
+		if (chatRunsCount == 0) {
+			Message memory sysMessage;
+			sysMessage.content = mintInputs[mintId].systemPrompt;
+			sysMessage.role = "system";
+			run.messages.push(sysMessage);
+		}
+
+        Message memory newMessage;
+        newMessage.content = message;
+        newMessage.role = "user";
+        run.messages.push(newMessage);
+        run.messagesCount = 1;
+
+        uint currentId = chatRunsCount;
+        chatRunsCount = chatRunsCount + 1;
+
+        IOracle(oracleAddress).createLlmCall(currentId);
+        emit ChatCreated(msg.sender, currentId);
+
+        return currentId;
+    }
+
+    function onOracleLlmResponse(
+        uint runId,
+        string memory response,
+        string memory errorMessage
+    ) public onlyOracle {
+        ChatRun storage run = chatRuns[runId];
+        require(
+            keccak256(abi.encodePacked(run.messages[run.messagesCount - 1].role)) == keccak256(abi.encodePacked("user")),
+            "No message to respond to"
+        );
+
+        Message memory newMessage;
+        newMessage.content = response;
+        newMessage.role = "assistant";
+        run.messages.push(newMessage);
+        run.messagesCount++;
+    }
+
+    function addMessage(string memory message, uint runId) public {
+        ChatRun storage run = chatRuns[runId];
+        require(
+            keccak256(abi.encodePacked(run.messages[run.messagesCount - 1].role)) == keccak256(abi.encodePacked("assistant")),
+            "No response to previous message"
+        );
+        require(
+            run.owner == msg.sender, "Only chat owner can add messages"
+        );
+
+        Message memory newMessage;
+        newMessage.content = message;
+        newMessage.role = "user";
+        run.messages.push(newMessage);
+        run.messagesCount++;
+        IOracle(oracleAddress).createLlmCall(runId);
+    }
+
+    function getMessageHistoryContents(uint chatId) public view returns (string[] memory) {
+        string[] memory messages = new string[](chatRuns[chatId].messages.length);
+        for (uint i = 0; i < chatRuns[chatId].messages.length; i++) {
+            messages[i] = chatRuns[chatId].messages[i].content;
+        }
+        return messages;
+    }
+
+    function getMessageHistoryRoles(uint chatId) public view returns (string[] memory) {
+        string[] memory roles = new string[](chatRuns[chatId].messages.length);
+        for (uint i = 0; i < chatRuns[chatId].messages.length; i++) {
+            roles[i] = chatRuns[chatId].messages[i].role;
+        }
+        return roles;
+    }
 	// The following functions are overrides required by Solidity.
 
 	function _beforeTokenTransfer(

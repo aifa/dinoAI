@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   696969: {
     DinoAI: {
-      address: "0x6D2aa1C90FE2A624b1deDC80F92b070F2C0bd525",
+      address: "0x636D02F4718ef924FcbD169e91D9e30B244514A2",
       abi: [
         {
           inputs: [
@@ -87,6 +87,25 @@ const deployedContracts = {
             },
           ],
           name: "BatchMetadataUpdate",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "chatId",
+              type: "uint256",
+            },
+          ],
+          name: "ChatCreated",
           type: "event",
         },
         {
@@ -181,6 +200,24 @@ const deployedContracts = {
         {
           inputs: [
             {
+              internalType: "string",
+              name: "message",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "runId",
+              type: "uint256",
+            },
+          ],
+          name: "addMessage",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
               internalType: "address",
               name: "to",
               type: "address",
@@ -219,6 +256,30 @@ const deployedContracts = {
           inputs: [
             {
               internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "chatRuns",
+          outputs: [
+            {
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "messagesCount",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
               name: "tokenId",
               type: "uint256",
             },
@@ -229,6 +290,44 @@ const deployedContracts = {
               internalType: "address",
               name: "",
               type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "chatId",
+              type: "uint256",
+            },
+          ],
+          name: "getMessageHistoryContents",
+          outputs: [
+            {
+              internalType: "string[]",
+              name: "",
+              type: "string[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "chatId",
+              type: "uint256",
+            },
+          ],
+          name: "getMessageHistoryRoles",
+          outputs: [
+            {
+              internalType: "string[]",
+              name: "",
+              type: "string[]",
             },
           ],
           stateMutability: "view",
@@ -432,6 +531,29 @@ const deployedContracts = {
           type: "function",
         },
         {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "runId",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "response",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "errorMessage",
+              type: "string",
+            },
+          ],
+          name: "onOracleLlmResponse",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
           inputs: [],
           name: "oracleAddress",
           outputs: [
@@ -562,6 +684,30 @@ const deployedContracts = {
           ],
           name: "setOracleAddress",
           outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "message",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "mintId",
+              type: "uint256",
+            },
+          ],
+          name: "startChat",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "i",
+              type: "uint256",
+            },
+          ],
           stateMutability: "nonpayable",
           type: "function",
         },
