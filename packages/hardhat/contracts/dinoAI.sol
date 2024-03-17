@@ -24,8 +24,10 @@ contract DinoAI is
 {
 	struct MintInput {
         address owner;
-        string prompt;
-        bool isMinted;	
+        bool isMinted;
+		string systemPrompt;
+		string model;
+		string temperature;
     }
 
 	using Counters for Counters.Counter;
@@ -55,9 +57,9 @@ contract DinoAI is
 		return "https://ipfs.io/ipfs/";
 	}
 
-	function mintItem(address to, string memory prompt) public returns (uint256) {
+	function mintItem(address to, string memory prompt, string memory model, string memory temperature) public returns (uint256) {
 
-		return initializeMint(to, prompt);
+		return initializeMint(to, prompt, model, temperature);
 	}
 
 
@@ -66,18 +68,20 @@ contract DinoAI is
         emit OracleAddressUpdated(newOracleAddress);
     }
 
-    function initializeMint(address to, string memory message) public returns (uint i) {
+    function initializeMint(address to, string memory prompt, string memory model, string memory temperature) public returns (uint i) {
         MintInput storage mintInput = mintInputs[mintsCount];
 
         mintInput.owner = to;
-        mintInput.prompt = message;
+        mintInput.systemPrompt = prompt;
+		mintInput.model = model;
+		mintInput.temperature = temperature;
         mintInput.isMinted = false;
+
 
       	uint currentId = mintsCount;
         mintsCount = currentId + 1;
 
-        string memory fullPrompt = mintInput.prompt;
-        fullPrompt = string.concat(fullPrompt, message);
+        string memory fullPrompt = mintInput.systemPrompt;
         fullPrompt = string.concat(fullPrompt, "\"");
         IOracle(oracleAddress).createFunctionCall(
             currentId,

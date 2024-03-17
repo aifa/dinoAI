@@ -12,30 +12,21 @@ const imageUrl = `${baseUrl}/thumbnail.jpg`;
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Challenge #0 | SpeedRunEthereum",
-    template: "%s | SpeedRunEthereum",
+    default: "Dino AI",
+    template: "%s | ",
   },
-  description: "Built with 🏗 Scaffold-ETH 2",
+  description: "Friendly AI Assistants",
   openGraph: {
     title: {
-      default: "Challenge #0 | SpeedRunEthereum",
-      template: "%s | SpeedRunEthereum",
+      default: "Dino AI Assistants",
+      template: "%s | Dino AI",
     },
-    description: "Built with 🏗 Scaffold-ETH 2",
+    description: "Dino",
     images: [
       {
         url: imageUrl,
       },
     ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    images: [imageUrl],
-    title: {
-      default: "Challenge #0 | SpeedRunEthereum",
-      template: "%s | SpeedRunEthereum",
-    },
-    description: "Built with 🏗 Scaffold-ETH 2",
   },
   icons: {
     icon: [{ url: "/favicon.png", sizes: "32x32", type: "image/png" }],

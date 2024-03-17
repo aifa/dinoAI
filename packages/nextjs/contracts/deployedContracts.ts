@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   696969: {
     DinoAI: {
-      address: "0xA51d58a351c3468Ff56337900F204F4a8A5fd0e8",
+      address: "0xb1A4116b4ccfbed1311E5A0f3648a9b3DDEa72BA",
       abi: [
         {
           inputs: [
@@ -243,7 +243,17 @@ const deployedContracts = {
             },
             {
               internalType: "string",
-              name: "message",
+              name: "prompt",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "model",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "temperature",
               type: "string",
             },
           ],
@@ -298,14 +308,24 @@ const deployedContracts = {
               type: "address",
             },
             {
-              internalType: "string",
-              name: "prompt",
-              type: "string",
-            },
-            {
               internalType: "bool",
               name: "isMinted",
               type: "bool",
+            },
+            {
+              internalType: "string",
+              name: "systemPrompt",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "model",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "temperature",
+              type: "string",
             },
           ],
           stateMutability: "view",
@@ -321,6 +341,16 @@ const deployedContracts = {
             {
               internalType: "string",
               name: "prompt",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "model",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "temperature",
               type: "string",
             },
           ],

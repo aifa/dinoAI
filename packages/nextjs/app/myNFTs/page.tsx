@@ -15,7 +15,7 @@ const MyNFTs: NextPage = () => {
   const { writeAsync: mintItem } = useScaffoldContractWrite({
     contractName: "DinoAI",
     functionName: "mintItem",
-    args: [connectedAddress, ""],
+    args: [connectedAddress, "", "", ""],
   });
 
   const { data: tokenIdCounter } = useScaffoldContractRead({
@@ -33,14 +33,19 @@ const MyNFTs: NextPage = () => {
     const currentTokenMetaData = nftsMetadata[tokenIdCounterNumber % nftsMetadata.length];
     const notificationId = notification.loading("Uploading to IPFS");
     try {
-      const uploadedItem = await addToIPFS(currentTokenMetaData);
+      //const uploadedItem = await addToIPFS(currentTokenMetaData);
 
       // First remove previous loading notification and then show success notification
-      notification.remove(notificationId);
-      notification.success("Metadata uploaded to IPFS");
-      notification.success(connectedAddress +" "+ currentTokenMetaData.attributes[0].value);
+      //notification.remove(notificationId);
+      //notification.success("Metadata uploaded to IPFS");
+      //notification.success(connectedAddress +" "+ currentTokenMetaData.attributes[0].value);
       await mintItem({
-        args: [connectedAddress, currentTokenMetaData.attributes[0].value],
+        args: [
+          connectedAddress,
+          currentTokenMetaData.attributes[0].value,
+          currentTokenMetaData.attributes[1].value,
+          currentTokenMetaData.attributes[2].value,
+        ],
       });
     } catch (error) {
       notification.remove(notificationId);
