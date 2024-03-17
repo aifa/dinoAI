@@ -46,14 +46,14 @@ export const MyHoldings = () => {
           ]);
 
           const tokenURI = await yourCollectibleContract.read.tokenURI([tokenId]);
-
+          console.log("tokenURI", tokenURI);
           const ipfsHash = tokenURI.replace("https://ipfs.io/ipfs/", "");
-
+          console.log("ipfsHash", ipfsHash);
           const nftMetadata: NFTMetaData = await getMetadataFromIPFS(ipfsHash);
 
           collectibleUpdate.push({
             id: parseInt(tokenId.toString()),
-            uri: tokenURI,
+            uri: ipfsHash,
             owner: connectedAddress,
             ...nftMetadata,
           });

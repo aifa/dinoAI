@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   696969: {
     DinoAI: {
-      address: "0x6d911AAD78fF7cD8F194B57a5f32158b4dcDC0d9",
+      address: "0xA51d58a351c3468Ff56337900F204F4a8A5fd0e8",
       abi: [
         {
           inputs: [
@@ -100,6 +100,38 @@ const deployedContracts = {
             },
           ],
           name: "MetadataUpdate",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "chatId",
+              type: "uint256",
+            },
+          ],
+          name: "MintInputCreated",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "newOracleAddress",
+              type: "address",
+            },
+          ],
+          name: "OracleAddressUpdated",
           type: "event",
         },
         {
@@ -206,6 +238,30 @@ const deployedContracts = {
           inputs: [
             {
               internalType: "address",
+              name: "to",
+              type: "address",
+            },
+            {
+              internalType: "string",
+              name: "message",
+              type: "string",
+            },
+          ],
+          name: "initializeMint",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "i",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
               name: "owner",
               type: "address",
             },
@@ -229,13 +285,42 @@ const deployedContracts = {
         {
           inputs: [
             {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "mintInputs",
+          outputs: [
+            {
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+            {
+              internalType: "string",
+              name: "prompt",
+              type: "string",
+            },
+            {
+              internalType: "bool",
+              name: "isMinted",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
               internalType: "address",
               name: "to",
               type: "address",
             },
             {
               internalType: "string",
-              name: "uri",
+              name: "prompt",
               type: "string",
             },
           ],
@@ -261,6 +346,29 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "runId",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "response",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "errorMessage",
+              type: "string",
+            },
+          ],
+          name: "onOracleFunctionResponse",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
@@ -380,6 +488,19 @@ const deployedContracts = {
             },
           ],
           name: "setApprovalForAll",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "newOracleAddress",
+              type: "address",
+            },
+          ],
+          name: "setOracleAddress",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",

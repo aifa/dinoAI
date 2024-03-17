@@ -73,20 +73,20 @@ contract DinoAI is
         mintInput.prompt = message;
         mintInput.isMinted = false;
 
-		tokenIdCounter.increment();
-		uint256 tokenId = tokenIdCounter.current();
+      	uint currentId = mintsCount;
+        mintsCount = currentId + 1;
 
         string memory fullPrompt = mintInput.prompt;
         fullPrompt = string.concat(fullPrompt, message);
         fullPrompt = string.concat(fullPrompt, "\"");
         IOracle(oracleAddress).createFunctionCall(
-            tokenId,
+            currentId,
             "image_generation",
             fullPrompt
         );
-        emit MintInputCreated(msg.sender, tokenId);
+        emit MintInputCreated(to, currentId);
 
-        return tokenId;
+        return currentId;
     }
 
     function onOracleFunctionResponse(
@@ -94,13 +94,13 @@ contract DinoAI is
         string memory response,
         string memory errorMessage
     ) public onlyOracle {
-        MintInput storage mintInput = mintInputs[runId];
+		MintInput storage mintInput = mintInputs[runId];
         require(!mintInput.isMinted, "NFT already minted");
 
         mintInput.isMinted = true;
 
         uint256 tokenId = _nextTokenId++;
-        _safeMint(mintInput.owner, tokenId);
+        _mint(mintInput.owner, tokenId);
         _setTokenURI(tokenId, response);
     }
 

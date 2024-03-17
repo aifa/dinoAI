@@ -38,7 +38,7 @@ const MyNFTs: NextPage = () => {
       // First remove previous loading notification and then show success notification
       notification.remove(notificationId);
       notification.success("Metadata uploaded to IPFS");
-
+      notification.success(connectedAddress +" "+ currentTokenMetaData.attributes[0].value);
       await mintItem({
         args: [connectedAddress, currentTokenMetaData.attributes[0].value],
       });
