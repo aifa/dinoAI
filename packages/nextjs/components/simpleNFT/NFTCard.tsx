@@ -19,6 +19,11 @@ export const NFTCard = ({ nft }: { nft: Collectible }) => {
     args: [userMessage, BigInt(nft.id.toString())],
   });
   
+  const { writeAsync: addMessage } = useScaffoldContractWrite({
+    contractName: "DinoAI",
+    functionName: "addMessage",
+    args: [userMessage, BigInt(nft.id.toString())],
+  });
 
   return (
     <div className="card card-compact bg-base-100 shadow-lg sm:min-w-[300px] shadow-secondary">
@@ -51,15 +56,6 @@ export const NFTCard = ({ nft }: { nft: Collectible }) => {
         <div className="flex space-x-3 mt-1 items-center">
           <span className="text-lg font-semibold">Owner : </span>
           <Address address={nft.owner} />
-        </div>
-        <div className="flex flex-col my-2 space-y-1">
-          <span className="text-lg font-semibold mb-1">Start A Chat: </span>
-          <AddressInput value={userMessage} placeholder="message" onChange={newValue => setUserMessage(newValue)} />
-        </div>
-        <div className="card-actions justify-end">
-          <button className="btn btn-secondary btn-md px-8 tracking-wide" onClick={() => startChat()}>
-            Send
-          </button>
         </div>
         <div className="flex flex-col my-2 space-y-1">
           <span className="text-lg font-semibold mb-1">Start A Chat: </span>
