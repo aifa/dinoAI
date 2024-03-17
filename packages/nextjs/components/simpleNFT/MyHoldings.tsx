@@ -12,6 +12,11 @@ export interface Collectible extends Partial<NFTMetaData> {
   id: number;
   uri: string;
   owner: string;
+  syspromt: string;
+  name: string;
+  description: string;
+  model: string;
+  temperature: string;
 }
 
 export const MyHoldings = () => {
@@ -46,16 +51,29 @@ export const MyHoldings = () => {
           ]);
 
           const tokenURI = await yourCollectibleContract.read.tokenURI([tokenId]);
-          console.log("tokenURI", tokenURI);
+          const tokenConfig = await yourCollectibleContract.read.mintInputs([tokenId]);
+          const name = tokenConfig[2];
+          const description = tokenConfig[3];
+          const sysprompt = tokenConfig[4];
+          const model = tokenConfig[5];
+          const temperature = tokenConfig[6];
+
+          console.log("tokenURI:", tokenURI);
+          console.log("model:", model);
+          console.log("temperature:", temperature);
           const ipfsHash = tokenURI.replace("https://ipfs.io/ipfs/", "");
-          console.log("ipfsHash", ipfsHash);
-          const nftMetadata: NFTMetaData = await getMetadataFromIPFS(ipfsHash);
+          console.log("ipfsHash:", ipfsHash);
+          //const nftMetadata: NFTMetaData = await getMetadataFromIPFS(ipfsHash);
 
           collectibleUpdate.push({
             id: parseInt(tokenId.toString()),
             uri: ipfsHash,
             owner: connectedAddress,
-            ...nftMetadata,
+            syspromt: sysprompt,
+            model: model,
+            temperature: temperature,
+            name: name,
+            description: description,
           });
         } catch (e) {
           notification.error("Error fetching all collectibles");

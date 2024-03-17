@@ -32,12 +32,30 @@ export const NFTCard = ({ nft }: { nft: Collectible }) => {
             ))}
           </div>
         </div>
+        <div className="flex flex-col justify-center mt-1 flex-wrap">
+          <p className="my-0 text-sm">{nft.description}</p>
+        </div>
         <div className="flex flex-col justify-center mt-1">
-          <p className="my-0 text-lg">{nft.description}</p>
+          <p className="my-0 text-lg">
+            {nft.model}, temp:{nft.temperature}
+          </p>
         </div>
         <div className="flex space-x-3 mt-1 items-center">
           <span className="text-lg font-semibold">Owner : </span>
           <Address address={nft.owner} />
+        </div>
+        <div className="flex flex-col my-2 space-y-1">
+          <span className="text-lg font-semibold mb-1">Ask A Question: </span>
+          <AddressInput
+            value={transferToAddress}
+            placeholder="receiver address"
+            onChange={newValue => setTransferToAddress(newValue)}
+          />
+        </div>
+        <div className="card-actions justify-end">
+          <button className="btn btn-secondary btn-md px-8 tracking-wide" onClick={() => transferNFT()}>
+            Send
+          </button>
         </div>
         <div className="flex flex-col my-2 space-y-1">
           <span className="text-lg font-semibold mb-1">Transfer To: </span>

@@ -25,6 +25,8 @@ contract DinoAI is
 	struct MintInput {
         address owner;
         bool isMinted;
+		string name;
+		string description;
 		string systemPrompt;
 		string model;
 		string temperature;
@@ -57,9 +59,10 @@ contract DinoAI is
 		return "https://ipfs.io/ipfs/";
 	}
 
-	function mintItem(address to, string memory prompt, string memory model, string memory temperature) public returns (uint256) {
+	function mintItem(address to, string memory prompt, string memory model, string memory temperature, 
+							string memory name, string memory description) public returns (uint256) {
 
-		return initializeMint(to, prompt, model, temperature);
+		return initializeMint(to, prompt, model, temperature, name, description);
 	}
 
 
@@ -68,7 +71,7 @@ contract DinoAI is
         emit OracleAddressUpdated(newOracleAddress);
     }
 
-    function initializeMint(address to, string memory prompt, string memory model, string memory temperature) public returns (uint i) {
+    function initializeMint(address to, string memory prompt, string memory model, string memory temperature, string memory name, string memory description) public returns (uint i) {
         MintInput storage mintInput = mintInputs[mintsCount];
 
         mintInput.owner = to;
@@ -76,6 +79,8 @@ contract DinoAI is
 		mintInput.model = model;
 		mintInput.temperature = temperature;
         mintInput.isMinted = false;
+		mintInput.name = name;
+		mintInput.description = description;
 
 
       	uint currentId = mintsCount;
