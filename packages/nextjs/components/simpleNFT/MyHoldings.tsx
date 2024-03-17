@@ -20,11 +20,11 @@ export const MyHoldings = () => {
   const [allCollectiblesLoading, setAllCollectiblesLoading] = useState(false);
 
   const { data: yourCollectibleContract } = useScaffoldContract({
-    contractName: "YourCollectible",
+    contractName: "DinoAI",
   });
 
   const { data: myTotalBalance } = useScaffoldContractRead({
-    contractName: "YourCollectible",
+    contractName: "DinoAI",
     functionName: "balanceOf",
     args: [connectedAddress],
     watch: true,

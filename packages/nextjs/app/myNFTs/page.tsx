@@ -13,13 +13,13 @@ const MyNFTs: NextPage = () => {
   const { address: connectedAddress, isConnected, isConnecting } = useAccount();
 
   const { writeAsync: mintItem } = useScaffoldContractWrite({
-    contractName: "YourCollectible",
+    contractName: "DinoAI",
     functionName: "mintItem",
     args: [connectedAddress, ""],
   });
 
   const { data: tokenIdCounter } = useScaffoldContractRead({
-    contractName: "YourCollectible",
+    contractName: "DinoAI",
     functionName: "tokenIdCounter",
     watch: true,
     cacheOnBlock: true,
@@ -40,7 +40,7 @@ const MyNFTs: NextPage = () => {
       notification.success("Metadata uploaded to IPFS");
 
       await mintItem({
-        args: [connectedAddress, uploadedItem.path],
+        args: [connectedAddress, currentTokenMetaData.attributes[0].value],
       });
     } catch (error) {
       notification.remove(notificationId);

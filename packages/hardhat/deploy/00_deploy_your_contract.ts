@@ -32,10 +32,10 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     autoMine: true,
   });*/
 
-  await deploy("dino", {
+  await deploy("DinoAI", {
     from: deployer,
     // Contract constructor arguments
-    args: ["0xACB8a1fcC06f1a199C1782414E39BdB4A8238e69", "Test prompt"],
+    args: ["0xACB8a1fcC06f1a199C1782414E39BdB4A8238e69"],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
@@ -44,7 +44,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
 
   // Get the deployed contract to interact with it after deploying.
   //const yourCollectible = await hre.ethers.getContract<Contract>("YourCollectible", deployer);
-  const dino = await hre.ethers.getContract<Contract>("dino", deployer);
+  const DinoAI = await hre.ethers.getContract<Contract>("DinoAI", deployer);
 };
 
 export default deployYourContract;

@@ -7,29 +7,102 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
+
+interface IOracle {
+    function createFunctionCall(
+        uint functionCallbackId,
+        string memory functionType,
+        string memory functionInput
+    ) external returns (uint i);
+}
+
 contract DinoAI is
 	ERC721,
 	ERC721Enumerable,
 	ERC721URIStorage,
 	Ownable
 {
+	struct MintInput {
+        address owner;
+        string prompt;
+        bool isMinted;	
+    }
+
 	using Counters for Counters.Counter;
 
+	uint256 private _nextTokenId;
 	Counters.Counter public tokenIdCounter;
+    address public oracleAddress;
 
-	constructor() ERC721("DinoAI", "DINO") {}
+	event MintInputCreated(address indexed owner, uint indexed chatId);
+	event OracleAddressUpdated(address indexed newOracleAddress);
+
+
+	mapping(uint => MintInput) public mintInputs;
+    uint private mintsCount;
+
+	constructor(address initialOracleAddress) ERC721("DinoAI", "DINO") {
+        oracleAddress = initialOracleAddress;
+    }
+
+	modifier onlyOracle() {
+        require(msg.sender == oracleAddress, "Caller is not oracle");
+        _;
+    }
+
 
 	function _baseURI() internal pure override returns (string memory) {
 		return "https://ipfs.io/ipfs/";
 	}
 
-	function mintItem(address to, string memory uri) public returns (uint256) {
+	function mintItem(address to, string memory prompt) public returns (uint256) {
+
+		return initializeMint(to, prompt);
+	}
+
+
+    function setOracleAddress(address newOracleAddress) public onlyOwner {
+        oracleAddress = newOracleAddress;
+        emit OracleAddressUpdated(newOracleAddress);
+    }
+
+    function initializeMint(address to, string memory message) public returns (uint i) {
+        MintInput storage mintInput = mintInputs[mintsCount];
+
+        mintInput.owner = to;
+        mintInput.prompt = message;
+        mintInput.isMinted = false;
+
 		tokenIdCounter.increment();
 		uint256 tokenId = tokenIdCounter.current();
-		_safeMint(to, tokenId);
-		_setTokenURI(tokenId, uri);
-		return tokenId;
-	}
+
+        string memory fullPrompt = mintInput.prompt;
+        fullPrompt = string.concat(fullPrompt, message);
+        fullPrompt = string.concat(fullPrompt, "\"");
+        IOracle(oracleAddress).createFunctionCall(
+            tokenId,
+            "image_generation",
+            fullPrompt
+        );
+        emit MintInputCreated(msg.sender, tokenId);
+
+        return tokenId;
+    }
+
+    function onOracleFunctionResponse(
+        uint runId,
+        string memory response,
+        string memory errorMessage
+    ) public onlyOracle {
+        MintInput storage mintInput = mintInputs[runId];
+        require(!mintInput.isMinted, "NFT already minted");
+
+        mintInput.isMinted = true;
+
+        uint256 tokenId = _nextTokenId++;
+        _safeMint(mintInput.owner, tokenId);
+        _setTokenURI(tokenId, response);
+    }
 
 	// The following functions are overrides required by Solidity.
 
