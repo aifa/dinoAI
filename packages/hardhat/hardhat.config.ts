@@ -127,9 +127,15 @@ const config: HardhatUserConfig = {
       accounts: [deployerPrivateKey],
     },
     galadrielTestnet: {
-      url: "https://testnet.galadriel.com",
+      chainId: 696969,
+      url: "https://testnet.galadriel.com/",
       accounts: [deployerPrivateKey],
-    }
+    },
+    galadrielLocal: {
+      chainId: 696969,
+      url: "https://testnet.galadriel.com/",
+      accounts: [deployerPrivateKey],
+    },
   },
   // configuration for harhdat-verify plugin
   etherscan: {

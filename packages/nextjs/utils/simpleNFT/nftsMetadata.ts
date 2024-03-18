@@ -1,4 +1,3 @@
-
 const nftsMetadata = [
   {
     description: "Financial cookie analyst",
@@ -8,7 +7,8 @@ const nftsMetadata = [
     attributes: [
       {
         trait_type: "SystemPrompt",
-        value: "You are a helpful and experienced data analyst specialized in macro cookies and chocolate chip indicators.",
+        value:
+          "You are a helpful and experienced data analyst specialized in macro cookies and chocolate chip indicators.",
       },
       {
         trait_type: "model",

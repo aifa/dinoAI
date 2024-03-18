@@ -52,11 +52,11 @@ export const MyHoldings = () => {
 
           const tokenURI = await yourCollectibleContract.read.tokenURI([tokenId]);
           const tokenConfig = await yourCollectibleContract.read.mintInputs([tokenId]);
-          const name = tokenConfig[2];
-          const description = tokenConfig[3];
-          const sysprompt = tokenConfig[4];
-          const model = tokenConfig[5];
-          const temperature = tokenConfig[6];
+          const name = tokenConfig[3];
+          const description = tokenConfig[4];
+          const sysprompt = tokenConfig[5];
+          const model = tokenConfig[6];
+          const temperature = tokenConfig[7];
 
           console.log("tokenURI:", tokenURI);
           console.log("model:", model);

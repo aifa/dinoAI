@@ -20,7 +20,7 @@ const MyNFTs: NextPage = () => {
 
   const { data: tokenIdCounter } = useScaffoldContractRead({
     contractName: "DinoAI",
-    functionName: "tokenIdCounter",
+    functionName: "_nextTokenId",
     watch: true,
     cacheOnBlock: true,
   });
