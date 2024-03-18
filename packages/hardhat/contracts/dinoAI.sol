@@ -6,18 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./chatlib.sol";
-
-interface IOracle {
-    function createFunctionCall(
-        uint functionCallbackId,
-        string memory functionType,
-        string memory functionInput
-    ) external returns (uint i);
-
-	function createLlmCall(
-        uint promptId
-    ) external returns (uint);
-}
+import "./IOracle.sol";
 
 /** It is a beast of an NFT
  * @title DinoAI */
@@ -33,7 +22,6 @@ contract DinoAI is
     using ChatLib for ChatLib.MintInput;
 
 
-
     /** Mapping of user to chats */
     mapping(uint => ChatLib.ChatRun) public chatRuns;
     uint private chatRunsCount;
@@ -47,8 +35,6 @@ contract DinoAI is
 	event OracleAddressUpdated(address indexed newOracleAddress);
     event ChatCreated(address indexed owner, uint indexed chatId);
 
-    
-
 	constructor(address initialOracleAddress) ERC721("DinoAI", "DINO") {
         oracleAddress = initialOracleAddress;
         chatRunsCount = 0;
@@ -59,10 +45,6 @@ contract DinoAI is
         require(msg.sender == oracleAddress, "Caller is not oracle");
         _;
     }
-
-	function _baseURI() internal pure override returns (string memory) {
-		return "https://ipfs.io/ipfs/";
-	}
 
 	function mintItem(address to, string memory prompt, string memory model, string memory temperature, 
 							string memory name, string memory description) public returns (uint256) {
