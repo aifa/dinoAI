@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   696969: {
     DinoAI: {
-      address: "0xE7920133b2FDc13401f6B0F822925db6d2dE1987",
+      address: "0x99B21b39b47567E8414e00318df9D81dD91478B1",
       abi: [
         {
           inputs: [
@@ -344,50 +344,6 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "to",
-              type: "address",
-            },
-            {
-              internalType: "string",
-              name: "prompt",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "model",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "temperature",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "name",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "description",
-              type: "string",
-            },
-          ],
-          name: "initializeMint",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "i",
-              type: "uint256",
-            },
-          ],
-          stateMutability: "nonpayable",
           type: "function",
         },
         {

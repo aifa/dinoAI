@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { NFTCard } from "./NFTCard";
 import { useAccount } from "wagmi";
+import { NFTCard } from "~~/components/simpleNFT/NFTCard";
 import { useScaffoldContract, useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 import { notification } from "~~/utils/scaffold-eth";
-import { getMetadataFromIPFS } from "~~/utils/simpleNFT/ipfs-fetch";
 import { NFTMetaData } from "~~/utils/simpleNFT/nftsMetadata";
 
 export interface Collectible extends Partial<NFTMetaData> {
@@ -19,8 +18,8 @@ export interface Collectible extends Partial<NFTMetaData> {
   temperature: string;
 }
 
-export const MyHoldings = () => {
-  const { address: connectedAddress } = useAccount();
+export const DinoList = () => {
+  const { address: connectedAddress, isConnected, isConnecting } = useAccount();
   const [myAllCollectibles, setMyAllCollectibles] = useState<Collectible[]>([]);
   const [allCollectiblesLoading, setAllCollectiblesLoading] = useState(false);
 
@@ -28,27 +27,26 @@ export const MyHoldings = () => {
     contractName: "DinoAI",
   });
 
-  const { data: myTotalBalance } = useScaffoldContractRead({
+  const { data: tokenCount } = useScaffoldContractRead({
     contractName: "DinoAI",
-    functionName: "balanceOf",
-    args: [connectedAddress],
+    functionName: "totalSupply",
     watch: true,
   });
 
   useEffect(() => {
     const updateMyCollectibles = async (): Promise<void> => {
-      if (myTotalBalance === undefined || yourCollectibleContract === undefined || connectedAddress === undefined)
-        return;
+      console.log("connectedAddress:", connectedAddress);
+      console.log("tokenCount:", tokenCount);
+      console.log("yourCollectibleContract:", yourCollectibleContract);
+      if (tokenCount === undefined || yourCollectibleContract === undefined || connectedAddress === undefined) return;
 
       setAllCollectiblesLoading(true);
       const collectibleUpdate: Collectible[] = [];
-      const totalBalance = parseInt(myTotalBalance.toString());
+      const totalBalance = parseInt(tokenCount.toString());
+      console.log("totalBalance:", totalBalance);
       for (let tokenIndex = 0; tokenIndex < totalBalance; tokenIndex++) {
         try {
-          const tokenId = await yourCollectibleContract.read.tokenOfOwnerByIndex([
-            connectedAddress,
-            BigInt(tokenIndex),
-          ]);
+          const tokenId = await yourCollectibleContract.read.tokenByIndex([BigInt(tokenIndex)]);
 
           const tokenURI = await yourCollectibleContract.read.tokenURI([tokenId]);
           const tokenConfig = await yourCollectibleContract.read.mintInputs([tokenId]);
@@ -88,7 +86,7 @@ export const MyHoldings = () => {
 
     updateMyCollectibles();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [connectedAddress, myTotalBalance]);
+  }, [tokenCount]);
 
   if (allCollectiblesLoading)
     return (
@@ -115,3 +113,5 @@ export const MyHoldings = () => {
     </>
   );
 };
+
+export default DinoList;

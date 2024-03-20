@@ -18,7 +18,6 @@ export const NFTCard = ({ nft }: { nft: Collectible }) => {
     functionName: "startChat",
     args: [userMessage, BigInt(nft.id.toString())],
   });
-  
   const { writeAsync: addMessage } = useScaffoldContractWrite({
     contractName: "DinoAI",
     functionName: "addMessage",
@@ -30,9 +29,6 @@ export const NFTCard = ({ nft }: { nft: Collectible }) => {
       <figure className="relative">
         {/* eslint-disable-next-line  */}
         <img src={nft.uri} alt="NFT Image" className="h-60 min-w-full" />
-        <figcaption className="glass absolute bottom-4 left-4 p-4 w-25 rounded-xl">
-          <span className="text-white "># {nft.id}</span>
-        </figcaption>
       </figure>
       <div className="card-body space-y-3">
         <div className="flex items-center justify-center">
@@ -56,28 +52,6 @@ export const NFTCard = ({ nft }: { nft: Collectible }) => {
         <div className="flex space-x-3 mt-1 items-center">
           <span className="text-lg font-semibold">Owner : </span>
           <Address address={nft.owner} />
-        </div>
-        <div className="flex flex-col my-2 space-y-1">
-          <span className="text-lg font-semibold mb-1">Start A Chat: </span>
-          <AddressInput value={userMessage} placeholder="message" onChange={newValue => setUserMessage(newValue)} />
-        </div>
-        <div className="card-actions justify-end">
-          <button className="btn btn-secondary btn-md px-8 tracking-wide" onClick={() => startChat()}>
-            Send
-          </button>
-        </div>
-        <div className="flex flex-col my-2 space-y-1">
-          <span className="text-lg font-semibold mb-1">Transfer To: </span>
-          <AddressInput
-            value={transferToAddress}
-            placeholder="receiver address"
-            onChange={newValue => setTransferToAddress(newValue)}
-          />
-        </div>
-        <div className="card-actions justify-end">
-          <button className="btn btn-secondary btn-md px-8 tracking-wide" onClick={() => transferNFT()}>
-            Send
-          </button>
         </div>
       </div>
     </div>

@@ -21,7 +21,7 @@ contract DinoAI is
     using ChatLib for ChatLib.Message;
     using ChatLib for ChatLib.MintInput;
 
-
+    string private constant BASE_CHAR = "You are a Dino cartoon with superior intelligence that can talk like a human but needs to roar from time to time. Your role is the following:";
     /** Mapping of user to chats */
     mapping(uint => ChatLib.ChatRun) public chatRuns;
     uint private chatRunsCount;
@@ -57,14 +57,14 @@ contract DinoAI is
         emit OracleAddressUpdated(newOracleAddress);
     }
 
-    function initializeMint(address to, string memory prompt, string memory model, string memory temperature, string memory name, string memory description) public returns (uint i) {
+    function initializeMint(address to, string memory prompt, string memory model, string memory temperature, string memory name, string memory description) private returns (uint i) {
        
         uint currentId =  _nextTokenId++;
 
         ChatLib.MintInput storage mintInput = mintInputs[currentId];
         mintInput.owner = to;
         mintInput.tokenId = currentId;
-        mintInput.systemPrompt = prompt;
+        mintInput.systemPrompt = string.concat(BASE_CHAR, prompt);
 		mintInput.model = model;
 		mintInput.temperature = temperature;
         mintInput.isMinted = false;
@@ -135,7 +135,7 @@ contract DinoAI is
         ChatLib.ChatRun storage run = chatRuns[runId];
         require(
             keccak256(abi.encodePacked(run.messages[run.messagesCount - 1].role)) == keccak256(abi.encodePacked("user")),
-            "No message to respond to"
+            "No message to respond to..."
         );
 
         ChatLib.Message memory newMessage;

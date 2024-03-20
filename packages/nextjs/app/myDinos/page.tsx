@@ -5,11 +5,9 @@ import { useAccount } from "wagmi";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { MyHoldings } from "~~/components/simpleNFT";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
-import { notification } from "~~/utils/scaffold-eth";
-import { addToIPFS } from "~~/utils/simpleNFT/ipfs-fetch";
 import nftsMetadata from "~~/utils/simpleNFT/nftsMetadata";
 
-const MyNFTs: NextPage = () => {
+const MyDinos: NextPage = () => {
   const { address: connectedAddress, isConnected, isConnecting } = useAccount();
 
   const { writeAsync: mintItem } = useScaffoldContractWrite({
@@ -31,14 +29,7 @@ const MyNFTs: NextPage = () => {
 
     const tokenIdCounterNumber = Number(tokenIdCounter);
     const currentTokenMetaData = nftsMetadata[tokenIdCounterNumber % nftsMetadata.length];
-    //const notificationId = notification.loading("Uploading to IPFS");
     try {
-      //const uploadedItem = await addToIPFS(currentTokenMetaData);
-
-      // First remove previous loading notification and then show success notification
-      //notification.remove(notificationId);
-      //notification.success("Metadata uploaded to IPFS");
-      //notification.success(connectedAddress +" "+ currentTokenMetaData.attributes[0].value);
       await mintItem({
         args: [
           connectedAddress,
@@ -50,7 +41,6 @@ const MyNFTs: NextPage = () => {
         ],
       });
     } catch (error) {
-      //notification.remove(notificationId);
       console.error(error);
     }
   };
@@ -60,7 +50,7 @@ const MyNFTs: NextPage = () => {
       <div className="flex items-center flex-col pt-10">
         <div className="px-5">
           <h1 className="text-center mb-8">
-            <span className="block text-4xl font-bold">My NFTs</span>
+            <span className="block text-4xl font-bold">My Dino Assistans</span>
           </h1>
         </div>
       </div>
@@ -69,7 +59,7 @@ const MyNFTs: NextPage = () => {
           <RainbowKitCustomConnectButton />
         ) : (
           <button className="btn btn-secondary" onClick={handleMintItem}>
-            Mint NFT
+            Create new
           </button>
         )}
       </div>
@@ -78,4 +68,4 @@ const MyNFTs: NextPage = () => {
   );
 };
 
-export default MyNFTs;
+export default MyDinos;

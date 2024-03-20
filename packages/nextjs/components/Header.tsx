@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useCallback, useRef, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -23,8 +22,13 @@ type HeaderMenuLink = {
 
 export const menuLinks: HeaderMenuLink[] = [
   {
-    label: "My NFTs",
-    href: "/myNFTs",
+    label: "My Dinos",
+    href: "/myDinos",
+    icon: <PhotoIcon className="h-4 w-4" />,
+  },
+  {
+    label: "Browse",
+    href: "/browse",
     icon: <PhotoIcon className="h-4 w-4" />,
   },
   {
