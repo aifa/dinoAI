@@ -4,11 +4,7 @@ import React, { useCallback, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  ArrowDownTrayIcon,
-  ArrowPathIcon,
-  ArrowUpTrayIcon,
   Bars3Icon,
-  BugAntIcon,
   PhotoIcon,
 } from "@heroicons/react/24/outline";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
@@ -31,26 +27,26 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/browse",
     icon: <PhotoIcon className="h-4 w-4" />,
   },
-  {
-    label: "Transfers",
-    href: "/transfers",
-    icon: <ArrowPathIcon className="h-4 w-4" />,
-  },
-  {
-    label: "IPFS Upload",
-    href: "/ipfsUpload",
-    icon: <ArrowUpTrayIcon className="h-4 w-4" />,
-  },
-  {
-    label: "IPFS Download",
-    href: "/ipfsDownload",
-    icon: <ArrowDownTrayIcon className="h-4 w-4" />,
-  },
-  {
-    label: "Debug Contracts",
-    href: "/debug",
-    icon: <BugAntIcon className="h-4 w-4" />,
-  },
+  //   {
+  //     label: "Transfers",
+  //     href: "/transfers",
+  //     icon: <ArrowPathIcon className="h-4 w-4" />,
+  //   },
+  //   {
+  //     label: "IPFS Upload",
+  //     href: "/ipfsUpload",
+  //     icon: <ArrowUpTrayIcon className="h-4 w-4" />,
+  //   },
+  //   {
+  //     label: "IPFS Download",
+  //     href: "/ipfsDownload",
+  //     icon: <ArrowDownTrayIcon className="h-4 w-4" />,
+  //   },
+  //   {
+  //     label: "Debug Contracts",
+  //     href: "/debug",
+  //     icon: <BugAntIcon className="h-4 w-4" />,
+  //   },
 ];
 
 export const HeaderMenuLinks = () => {
