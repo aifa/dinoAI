@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Bars3Icon,
+  BugAntIcon,
   PhotoIcon,
 } from "@heroicons/react/24/outline";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
@@ -42,11 +43,11 @@ export const menuLinks: HeaderMenuLink[] = [
   //     href: "/ipfsDownload",
   //     icon: <ArrowDownTrayIcon className="h-4 w-4" />,
   //   },
-  //   {
-  //     label: "Debug Contracts",
-  //     href: "/debug",
-  //     icon: <BugAntIcon className="h-4 w-4" />,
-  //   },
+     {
+       label: "Debug Contracts",
+       href: "/debug",
+       icon: <BugAntIcon className="h-4 w-4" />,
+     },
 ];
 
 export const HeaderMenuLinks = () => {

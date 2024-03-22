@@ -19,14 +19,14 @@ contract DinoAI is
 {
     using ChatLib for ChatLib.ChatRun;
     using ChatLib for ChatLib.Message;
-    using ChatLib for ChatLib.MintInput;
+    using ChatLib for ChatLib.TokenData;
 
     string private constant BASE_CHAR = "You are a Dino cartoon with superior intelligence that can talk like a human but needs to roar from time to time. Your role is the following:";
     /** Mapping of user to chats */
     mapping(uint => ChatLib.ChatRun) public chatRuns;
     uint private chatRunsCount;
 
-  	mapping(uint => ChatLib.MintInput) public mintInputs;
+  	mapping(uint => ChatLib.TokenData) public tokenDataMap;
 	uint256 public _nextTokenId;
 
     address public oracleAddress;
@@ -59,28 +59,28 @@ contract DinoAI is
 
     function initializeMint(address to, string memory prompt, string memory model, string memory temperature, string memory name, string memory description) private returns (uint i) {
        
-        uint currentId =  _nextTokenId++;
+        uint newId =  _nextTokenId++;
 
-        ChatLib.MintInput storage mintInput = mintInputs[currentId];
-        mintInput.owner = to;
-        mintInput.tokenId = currentId;
-        mintInput.systemPrompt = string.concat(BASE_CHAR, prompt);
-		mintInput.model = model;
-		mintInput.temperature = temperature;
-        mintInput.isMinted = false;
-		mintInput.name = name;
-		mintInput.description = description;
+        ChatLib.TokenData storage newTokenData = tokenDataMap[newId];
+        newTokenData.owner = to;
+        newTokenData.tokenId = newId;
+        newTokenData.systemPrompt = string.concat(BASE_CHAR, prompt);
+		newTokenData.model = model;
+		newTokenData.temperature = temperature;
+        newTokenData.isMinted = false;
+		newTokenData.name = name;
+		newTokenData.description = description;
 
-        string memory fullPrompt = mintInput.systemPrompt;
+        string memory fullPrompt = newTokenData.systemPrompt;
         fullPrompt = string.concat(fullPrompt, "\"");
         IOracle(oracleAddress).createFunctionCall(
-            currentId,
+            newId,
             "image_generation",
             fullPrompt
         );
-        emit MintInputCreated(to, currentId);
+        emit MintInputCreated(to, newId);
 
-        return currentId;
+        return newId;
     }
 
     function onOracleFunctionResponse(
@@ -88,35 +88,35 @@ contract DinoAI is
         string memory response,
         string memory errorMessage
     ) public onlyOracle {
-		ChatLib.MintInput storage mintInput = mintInputs[runId];
-        require(!mintInput.isMinted, "NFT already minted");
+		ChatLib.TokenData storage tokenData = tokenDataMap[runId];
+        require(!tokenData.isMinted, "NFT already minted");
 
-        mintInput.isMinted = true;
+        tokenData.isMinted = true;
 
-        uint256 tokenId = mintInput.tokenId;
-        _safeMint(mintInput.owner, tokenId);
+        uint256 tokenId = tokenData.tokenId;
+        _safeMint(tokenData.owner, tokenId);
         _setTokenURI(tokenId, response);
     }
 
     function startChat(string memory message, uint tokenId) public returns (uint i) {
 
-        ChatLib.ChatRun storage run = chatRuns[chatRunsCount];
-        ChatLib.MintInput storage mintInput = mintInputs[tokenId];
+        ChatLib.ChatRun storage newChat = chatRuns[chatRunsCount];
+        ChatLib.TokenData storage tokenData = tokenDataMap[tokenId];
 
-        run.owner = msg.sender;
-        run.messagesCount=0;
+        newChat.owner = msg.sender;
+        newChat.messagesCount=0;
         
         ChatLib.Message memory sysMessage;
-        sysMessage.content = mintInput.systemPrompt;
+        sysMessage.content = tokenData.systemPrompt;
         sysMessage.role = "system";
-        run.messages.push(sysMessage);
-        run.messagesCount += 1;
+        newChat.messages.push(sysMessage);
+        newChat.messagesCount += 1;
 
         ChatLib.Message memory newMessage;
         newMessage.content = message;
         newMessage.role = "user";
-        run.messages.push(newMessage);
-        run.messagesCount += 1;
+        newChat.messages.push(newMessage);
+        newChat.messagesCount += 1;
 
         uint currentId = chatRunsCount;
         chatRunsCount = chatRunsCount + 1;

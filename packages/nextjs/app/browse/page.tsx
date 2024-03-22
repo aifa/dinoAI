@@ -50,7 +50,7 @@ export const DinoList = () => {
           const tokenId = await yourCollectibleContract.read.tokenByIndex([BigInt(tokenIndex)]);
 
           const tokenURI = await yourCollectibleContract.read.tokenURI([tokenId]);
-          const tokenConfig = await yourCollectibleContract.read.mintInputs([tokenId]);
+          const tokenConfig = await yourCollectibleContract.read.tokenDataMap([tokenId]);
           const name = tokenConfig[3];
           const description = tokenConfig[4];
           const sysprompt = tokenConfig[5];

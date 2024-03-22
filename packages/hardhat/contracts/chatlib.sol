@@ -14,7 +14,7 @@ library ChatLib{
         uint messagesCount;
     }
 
-    struct MintInput {
+    struct TokenData {
         uint tokenId;
         address owner;
         bool isMinted;
