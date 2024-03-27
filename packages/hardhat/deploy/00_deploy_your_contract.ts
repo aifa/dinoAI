@@ -33,7 +33,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     autoMine: true,
   });
 */
-  const oracleAddress: string = "0xACB8a1fcC06f1a199C1782414E39BdB4A8238e69";
+  const oracleAddress: string = "0xe75D9bED71F98595aF51afd291703a7D4f35FB04";
   await deploy("DinoAI", {
     from: deployer,
     // Contract constructor arguments

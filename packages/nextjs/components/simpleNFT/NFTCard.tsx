@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Address, AddressInput } from "../scaffold-eth";
 import { Collectible } from "./MyHoldings";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
+import Link from "next/link";
 
 export const NFTCard = ({ nft }: { nft: Collectible }) => {
   const [transferToAddress, setTransferToAddress] = useState("");
@@ -52,6 +53,11 @@ export const NFTCard = ({ nft }: { nft: Collectible }) => {
         <div className="flex space-x-3 mt-1 items-center">
           <span className="text-lg font-semibold">Owner : </span>
           <Address address={nft.owner} />
+        </div>
+        <div className="card-actions justify-center">
+          <Link href={`https://dinochat.vercel.app/chat/${nft.id}`} target="_blank">
+            <button className="btn btn-secondary btn-md px-8 tracking-wide">Chat</button>
+          </Link>
         </div>
       </div>
     </div>

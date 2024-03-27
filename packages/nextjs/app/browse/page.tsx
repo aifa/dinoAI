@@ -50,12 +50,12 @@ export const DinoList = () => {
           const tokenId = await yourCollectibleContract.read.tokenByIndex([BigInt(tokenIndex)]);
 
           const tokenURI = await yourCollectibleContract.read.tokenURI([tokenId]);
-          const tokenConfig = await yourCollectibleContract.read.tokenDataMap([tokenId]);
-          const name = tokenConfig[3];
-          const description = tokenConfig[4];
-          const sysprompt = tokenConfig[5];
-          const model = tokenConfig[6];
-          const temperature = tokenConfig[7];
+          const tokenConfig = await yourCollectibleContract.read.getTokenData([tokenId]);
+          const name = tokenConfig.name;
+          const description = tokenConfig.description;
+          const sysprompt = tokenConfig.systemPrompt;
+          const model = tokenConfig.model;
+          const temperature = tokenConfig.temperature;
 
           console.log("tokenURI:", tokenURI);
           console.log("model:", model);

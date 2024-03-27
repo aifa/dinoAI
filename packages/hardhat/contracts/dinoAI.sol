@@ -23,10 +23,10 @@ contract DinoAI is
 
     string private constant BASE_CHAR = "You are a Dino cartoon with superior intelligence that can talk like a human but needs to roar from time to time. Your role is the following:";
     /** Mapping of user to chats */
-    mapping(uint => ChatLib.ChatRun) public chatRuns;
+    mapping(uint => ChatLib.ChatRun) private chatRuns;
     uint private chatRunsCount;
 
-  	mapping(uint => ChatLib.TokenData) public tokenDataMap;
+  	mapping(uint => ChatLib.TokenData) private tokenDataMap;
 	uint256 public _nextTokenId;
 
     address public oracleAddress;
@@ -179,6 +179,9 @@ contract DinoAI is
         return roles;
     }
 	// The following functions are overrides required by Solidity.
+    function getTokenData(uint tokenId) public view returns (ChatLib.TokenData memory) {
+        return tokenDataMap[tokenId];
+    }
 
 	function _beforeTokenTransfer(
 		address from,

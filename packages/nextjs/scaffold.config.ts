@@ -10,9 +10,9 @@ export type ScaffoldConfig = {
   walletAutoConnect: boolean;
 };
 
-export const galadrielTestnet = defineChain({
+export const galadrielDevnet = defineChain({
   id: 696969,
-  name: "Galadriel Testnet",
+  name: "Galadriel Dev",
   network: "galadriel",
   nativeCurrency: {
     decimals: 18,
@@ -21,10 +21,10 @@ export const galadrielTestnet = defineChain({
   },
   rpcUrls: {
     default: {
-      http: ["https://testnet.galadriel.com"],
+      http: ["https://devnet.galadriel.com"],
     },
     public: {
-      http: ["https://testnet.galadriel.com"],
+      http: ["https://devnet.galadriel.com"],
     },
   },
   blockExplorers: {
@@ -54,7 +54,7 @@ const scaffoldConfig = {
 
 
 
-  targetNetworks: [galadrielTestnet] as const,
+  targetNetworks: [galadrielDevnet] as const,
 
   // The interval at which your front-end polls the RPC servers for new data
   // it has no effect if you only target the local network (default is 4000)

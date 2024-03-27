@@ -30,7 +30,7 @@ const config: HardhatUserConfig = {
       },
     },
   },
-  defaultNetwork: "galadrielTestnet",
+  defaultNetwork: "galadrielDevnet",
   namedAccounts: {
     deployer: {
       // By default, it will take the first Hardhat account as the deployer
@@ -126,14 +126,14 @@ const config: HardhatUserConfig = {
       url: "https://sepolia.publicgoods.network",
       accounts: [deployerPrivateKey],
     },
-    galadrielTestnet: {
+    galadrielDevnet: {
       chainId: 696969,
-      url: "https://testnet.galadriel.com/",
+      url: "https://devnet.galadriel.com/",
       accounts: [deployerPrivateKey],
     },
     galadrielLocal: {
       chainId: 696969,
-      url: "https://testnet.galadriel.com/",
+      url: "https://devnet.galadriel.com/",
       accounts: [deployerPrivateKey],
     },
   },

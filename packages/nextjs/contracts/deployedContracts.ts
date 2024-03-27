@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   696969: {
     DinoAI: {
-      address: "0x99D9571c6AC60891ad4ed87e763e588FE02afC98",
+      address: "0x6D2aa1C90FE2A624b1deDC80F92b070F2C0bd525",
       abi: [
         {
           inputs: [
@@ -269,30 +269,6 @@ const deployedContracts = {
           inputs: [
             {
               internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          name: "chatRuns",
-          outputs: [
-            {
-              internalType: "address",
-              name: "owner",
-              type: "address",
-            },
-            {
-              internalType: "uint256",
-              name: "messagesCount",
-              type: "uint256",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
               name: "tokenId",
               type: "uint256",
             },
@@ -341,6 +317,67 @@ const deployedContracts = {
               internalType: "string[]",
               name: "",
               type: "string[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          name: "getTokenData",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "uint256",
+                  name: "tokenId",
+                  type: "uint256",
+                },
+                {
+                  internalType: "address",
+                  name: "owner",
+                  type: "address",
+                },
+                {
+                  internalType: "bool",
+                  name: "isMinted",
+                  type: "bool",
+                },
+                {
+                  internalType: "string",
+                  name: "name",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "description",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "systemPrompt",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "model",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "temperature",
+                  type: "string",
+                },
+              ],
+              internalType: "struct ChatLib.TokenData",
+              name: "",
+              type: "tuple",
             },
           ],
           stateMutability: "view",
@@ -677,60 +714,6 @@ const deployedContracts = {
               internalType: "uint256",
               name: "",
               type: "uint256",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          name: "tokenDataMap",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "tokenId",
-              type: "uint256",
-            },
-            {
-              internalType: "address",
-              name: "owner",
-              type: "address",
-            },
-            {
-              internalType: "bool",
-              name: "isMinted",
-              type: "bool",
-            },
-            {
-              internalType: "string",
-              name: "name",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "description",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "systemPrompt",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "model",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "temperature",
-              type: "string",
             },
           ],
           stateMutability: "view",
