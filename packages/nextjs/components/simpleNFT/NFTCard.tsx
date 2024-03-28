@@ -6,23 +6,11 @@ import Link from "next/link";
 
 export const NFTCard = ({ nft }: { nft: Collectible }) => {
   const [transferToAddress, setTransferToAddress] = useState("");
-  const [userMessage, setUserMessage] = useState("");
-
+  
   const { writeAsync: transferNFT } = useScaffoldContractWrite({
     contractName: "DinoAI",
     functionName: "transferFrom",
     args: [nft.owner, transferToAddress, BigInt(nft.id.toString())],
-  });
-
-  const { writeAsync: startChat } = useScaffoldContractWrite({
-    contractName: "DinoAI",
-    functionName: "startChat",
-    args: [userMessage, BigInt(nft.id.toString())],
-  });
-  const { writeAsync: addMessage } = useScaffoldContractWrite({
-    contractName: "DinoAI",
-    functionName: "addMessage",
-    args: [userMessage, BigInt(nft.id.toString())],
   });
 
   return (

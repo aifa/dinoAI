@@ -36,9 +36,6 @@ export const DinoList = () => {
 
   useEffect(() => {
     const updateMyCollectibles = async (): Promise<void> => {
-      console.log("connectedAddress:", connectedAddress);
-      console.log("tokenCount:", tokenCount);
-      console.log("yourCollectibleContract:", yourCollectibleContract);
       if (tokenCount === undefined || yourCollectibleContract === undefined || connectedAddress === undefined) return;
 
       setAllCollectiblesLoading(true);
@@ -56,18 +53,15 @@ export const DinoList = () => {
           const sysprompt = tokenConfig.systemPrompt;
           const model = tokenConfig.model;
           const temperature = tokenConfig.temperature;
+          const owner = await yourCollectibleContract.read.ownerOf([tokenId]);
 
-          console.log("tokenURI:", tokenURI);
-          console.log("model:", model);
-          console.log("temperature:", temperature);
           const ipfsHash = tokenURI.replace("https://ipfs.io/ipfs/", "");
-          console.log("ipfsHash:", ipfsHash);
           //const nftMetadata: NFTMetaData = await getMetadataFromIPFS(ipfsHash);
 
           collectibleUpdate.push({
             id: parseInt(tokenId.toString()),
             uri: ipfsHash,
-            owner: connectedAddress,
+            owner: owner,
             syspromt: sysprompt,
             model: model,
             temperature: temperature,

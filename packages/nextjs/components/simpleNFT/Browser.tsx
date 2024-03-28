@@ -56,6 +56,7 @@ export const MyHoldings = () => {
           const sysprompt = tokenConfig.systemPrompt;
           const model = tokenConfig.model;
           const temperature = tokenConfig.temperature;
+          const owner = await yourCollectibleContract.read.ownerOf([tokenId]);
 
           console.log("tokenURI:", tokenURI);
           console.log("model:", model);
@@ -67,7 +68,7 @@ export const MyHoldings = () => {
           collectibleUpdate.push({
             id: parseInt(tokenId.toString()),
             uri: ipfsHash,
-            owner: connectedAddress,
+            owner: owner,
             syspromt: sysprompt,
             model: model,
             temperature: temperature,
